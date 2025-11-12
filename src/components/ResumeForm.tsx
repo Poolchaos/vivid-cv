@@ -2,11 +2,12 @@
 
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useResumeStore } from "@/store/resumeStore";
 import { validatePersonalInfo } from "@/lib/validation";
 import { useState } from "react";
-
+import { ExperienceForm } from "./ExperienceForm";
+import { EducationForm } from "./EducationForm";
+import { SkillsForm } from "./SkillsForm";
 interface ValidationErrors {
   [key: string]: string;
 }
@@ -160,47 +161,9 @@ export function ResumeForm() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Experience</CardTitle>
-          <CardDescription>
-            Add your work experience (coming soon - Zustand integration)
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full">
-            Add Experience
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Education</CardTitle>
-          <CardDescription>
-            Add your educational background (coming soon)
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full">
-            Add Education
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Skills</CardTitle>
-          <CardDescription>
-            Add your technical and soft skills (coming soon)
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full">
-            Add Skill
-          </Button>
-        </CardContent>
-      </Card>
+      <ExperienceForm />
+      <EducationForm />
+      <SkillsForm />
     </div>
   );
 }
