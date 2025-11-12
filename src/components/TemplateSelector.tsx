@@ -47,7 +47,7 @@ export function TemplateSelector({ selectedTemplate, onSelectTemplate }: Templat
   const [hoveredTemplate, setHoveredTemplate] = useState<TemplateId | null>(null);
 
   return (
-    <div 
+    <div
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       role="radiogroup"
       aria-label="Resume template selection"
@@ -81,7 +81,7 @@ export function TemplateSelector({ selectedTemplate, onSelectTemplate }: Templat
             }}
           >
             <CardHeader>
-              <CardTitle 
+              <CardTitle
                 id={`template-${template.id}-title`}
                 className="flex items-center justify-between"
               >
