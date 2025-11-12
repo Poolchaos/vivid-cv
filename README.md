@@ -1,33 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VividCV
+
+**Bring your resume to life with interactive 3D animations**
+
+A no-code web application that transforms static resume data into animated, interactive web experiences using React Three Fiber and motion design.
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router) + React 19
+- **3D/Animation:** React Three Fiber, Drei, Framer Motion
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Language:** TypeScript (strict mode)
+- **Deployment:** Vercel
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+  app/              # Next.js App Router
+  components/       # React components
+  lib/              # Utilities, state management
+public/             # Static assets
+```
 
-## Learn More
+## Development
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run typecheck` - Run TypeScript compiler
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See `/docs/projects/11-vivid-cv/` in the portfolio workspace for:
+- Architecture overview
+- Component specifications
+- Design system
+- Roadmap
+
+## License
+
+MIT
 
 ## Deploy on Vercel
 
