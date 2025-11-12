@@ -1,3 +1,5 @@
+'use client';
+
 import { useResumeStore } from '../store/resumeStore';
 import CardFlipTemplate from './templates/CardFlipTemplate';
 import TimelineTemplate from './templates/TimelineTemplate';
