@@ -18,7 +18,7 @@ export function ResumeForm() {
 
   const handleInputChange = (field: string, value: string) => {
     updatePersonalInfo({ [field]: value });
-    
+
     // Clear error for this field when user starts typing
     if (errors[field]) {
       setErrors((prev) => {
