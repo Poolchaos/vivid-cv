@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -14,11 +15,15 @@ export default function Home() {
           </p>
 
           <div className="flex gap-4">
-            <Button size="lg">Get Started</Button>
-            <Button size="lg" variant="outline">View Templates</Button>
+            <Button size="lg" asChild>
+              <Link href="/create">Get Started</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="#templates">View Templates</Link>
+            </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 w-full max-w-5xl">
+          <div id="templates" className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 w-full max-w-5xl">
             <Card>
               <CardHeader>
                 <CardTitle>3D Card Flip</CardTitle>
