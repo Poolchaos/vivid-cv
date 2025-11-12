@@ -47,7 +47,11 @@ export function TemplateSelector({ selectedTemplate, onSelectTemplate }: Templat
   const [hoveredTemplate, setHoveredTemplate] = useState<TemplateId | null>(null);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div 
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      role="radiogroup"
+      aria-label="Resume template selection"
+    >
       {templates.map((template) => {
         const isSelected = selectedTemplate === template.id;
         const isHovered = hoveredTemplate === template.id;
@@ -65,12 +69,27 @@ export function TemplateSelector({ selectedTemplate, onSelectTemplate }: Templat
             onMouseEnter={() => setHoveredTemplate(template.id)}
             onMouseLeave={() => setHoveredTemplate(null)}
             onClick={() => onSelectTemplate(template.id)}
+            role="radio"
+            aria-checked={isSelected}
+            aria-labelledby={`template-${template.id}-title`}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelectTemplate(template.id);
+              }
+            }}
           >
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
+              <CardTitle 
+                id={`template-${template.id}-title`}
+                className="flex items-center justify-between"
+              >
                 {template.name}
                 {isSelected && (
-                  <span className="text-xs font-normal text-primary">Selected</span>
+                  <span className="text-xs font-normal text-primary" aria-label="Currently selected">
+                    Selected
+                  </span>
                 )}
               </CardTitle>
               <CardDescription>{template.description}</CardDescription>

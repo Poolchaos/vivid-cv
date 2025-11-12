@@ -1,3 +1,5 @@
+'use client';
+
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Text, RoundedBox } from '@react-three/drei';
 import { useResumeStore } from '../../store/resumeStore';

@@ -1,21 +1,56 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Metadata } from "next";
+import PreviewContainer from "@/components/PreviewContainer";
 
 interface PublicResumePageProps {
-  params: {
+  params: Promise<{
     username: string;
+  }>;
+}
+
+// Generate metadata for SEO
+export async function generateMetadata({
+  params,
+}: PublicResumePageProps): Promise<Metadata> {
+  const { username } = await params;
+
+  // In a real app, fetch resume data from database to get actual name and title
+  const title = `${username} - Interactive Resume | VividCV`;
+  const description = `View ${username}'s interactive 3D resume built with VividCV. Explore their experience, skills, and projects in a stunning visual format.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'profile',
+      url: `https://vividcv.app/${username}`,
+      siteName: 'VividCV',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
 }
 
-export default function PublicResumePage({ params }: PublicResumePageProps) {
-  const { username } = params;
+export default async function PublicResumePage({
+  params,
+}: PublicResumePageProps) {
+  const { username } = await params;
+
+  // In a real app, fetch resume data from database/storage
+  // For now, we'll render a placeholder that uses localStorage data
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted">
-      <header className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+    <div className="min-h-screen bg-slate-950">
+      <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/">
-            <h1 className="text-2xl font-bold">VividCV</h1>
+            <h1 className="text-2xl font-bold text-white">VividCV</h1>
           </Link>
           <Button asChild>
             <Link href="/create">Create Your Own</Link>
@@ -24,41 +59,27 @@ export default function PublicResumePage({ params }: PublicResumePageProps) {
       </header>
 
       <main className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-background rounded-lg shadow-lg p-8">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold">{username}&apos;s Resume</h2>
-              <p className="text-muted-foreground">
-                Interactive 3D resume will render here
-              </p>
-            </div>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold text-white mb-2">
+              {username}&apos;s Resume
+            </h2>
+            <p className="text-gray-400">
+              Interactive 3D resume visualization
+            </p>
+          </div>
 
-            <div className="mt-12 space-y-8">
-              <section>
-                <h3 className="text-2xl font-semibold mb-4">About</h3>
-                <p className="text-muted-foreground">
-                  Resume content will be dynamically loaded based on username
-                </p>
-              </section>
+          <div className="h-[800px]">
+            <PreviewContainer />
+          </div>
 
-              <section>
-                <h3 className="text-2xl font-semibold mb-4">Experience</h3>
-                <div className="space-y-4">
-                  <div className="p-4 bg-muted rounded-md">
-                    <p className="text-muted-foreground text-sm">Experience items placeholder</p>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h3 className="text-2xl font-semibold mb-4">Skills</h3>
-                <div className="flex flex-wrap gap-2">
-                  <div className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                    Skill placeholder
-                  </div>
-                </div>
-              </section>
-            </div>
+          <div className="mt-8 text-center">
+            <p className="text-gray-500 text-sm mb-4">
+              Built with VividCV - Create your own interactive resume
+            </p>
+            <Button asChild size="lg">
+              <Link href="/create">Get Started</Link>
+            </Button>
           </div>
         </div>
       </main>
