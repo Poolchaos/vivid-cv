@@ -3,21 +3,42 @@
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useResumeStore } from "@/store/resumeStore";
+import { validatePersonalInfo } from "@/lib/validation";
+import { useState } from "react";
 
-interface PersonalInfo {
-  fullName: string;
-  email: string;
-  phone: string;
-  location: string;
-  title: string;
-  summary: string;
+interface ValidationErrors {
+  [key: string]: string;
 }
 
-interface ResumeFormProps {
-  onDataChange?: (data: Partial<PersonalInfo>) => void;
-}
+export function ResumeForm() {
+  const { personalInfo, updatePersonalInfo } = useResumeStore();
+  const [errors, setErrors] = useState<ValidationErrors>({});
 
-export function ResumeForm({ onDataChange }: ResumeFormProps) {
+  const handleInputChange = (field: string, value: string) => {
+    updatePersonalInfo({ [field]: value });
+    
+    // Clear error for this field when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  const handleBlur = (field: string) => {
+    // Validate the entire personalInfo when a field loses focus
+    const result = validatePersonalInfo(personalInfo);
+    if (!result.success) {
+      const fieldError = result.error.issues.find((err) => err.path[0] === field);
+      if (fieldError) {
+        setErrors((prev) => ({ ...prev, [field]: fieldError.message }));
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -36,8 +57,14 @@ export function ResumeForm({ onDataChange }: ResumeFormProps) {
               <Input
                 id="fullName"
                 placeholder="John Doe"
-                onChange={(e) => onDataChange?.({ fullName: e.target.value })}
+                value={personalInfo.fullName}
+                onChange={(e) => handleInputChange("fullName", e.target.value)}
+                onBlur={() => handleBlur("fullName")}
+                className={errors.fullName ? "border-destructive" : ""}
               />
+              {errors.fullName && (
+                <p className="text-sm text-destructive">{errors.fullName}</p>
+              )}
             </div>
             <div className="space-y-2">
               <label htmlFor="title" className="text-sm font-medium">
@@ -46,8 +73,14 @@ export function ResumeForm({ onDataChange }: ResumeFormProps) {
               <Input
                 id="title"
                 placeholder="Senior Software Engineer"
-                onChange={(e) => onDataChange?.({ title: e.target.value })}
+                value={personalInfo.title}
+                onChange={(e) => handleInputChange("title", e.target.value)}
+                onBlur={() => handleBlur("title")}
+                className={errors.title ? "border-destructive" : ""}
               />
+              {errors.title && (
+                <p className="text-sm text-destructive">{errors.title}</p>
+              )}
             </div>
           </div>
 
@@ -60,8 +93,14 @@ export function ResumeForm({ onDataChange }: ResumeFormProps) {
                 id="email"
                 type="email"
                 placeholder="john@example.com"
-                onChange={(e) => onDataChange?.({ email: e.target.value })}
+                value={personalInfo.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                onBlur={() => handleBlur("email")}
+                className={errors.email ? "border-destructive" : ""}
               />
+              {errors.email && (
+                <p className="text-sm text-destructive">{errors.email}</p>
+              )}
             </div>
             <div className="space-y-2">
               <label htmlFor="phone" className="text-sm font-medium">
@@ -71,8 +110,14 @@ export function ResumeForm({ onDataChange }: ResumeFormProps) {
                 id="phone"
                 type="tel"
                 placeholder="+1 (555) 123-4567"
-                onChange={(e) => onDataChange?.({ phone: e.target.value })}
+                value={personalInfo.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+                onBlur={() => handleBlur("phone")}
+                className={errors.phone ? "border-destructive" : ""}
               />
+              {errors.phone && (
+                <p className="text-sm text-destructive">{errors.phone}</p>
+              )}
             </div>
           </div>
 
@@ -83,8 +128,14 @@ export function ResumeForm({ onDataChange }: ResumeFormProps) {
             <Input
               id="location"
               placeholder="San Francisco, CA"
-              onChange={(e) => onDataChange?.({ location: e.target.value })}
+              value={personalInfo.location}
+              onChange={(e) => handleInputChange("location", e.target.value)}
+              onBlur={() => handleBlur("location")}
+              className={errors.location ? "border-destructive" : ""}
             />
+            {errors.location && (
+              <p className="text-sm text-destructive">{errors.location}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -95,9 +146,16 @@ export function ResumeForm({ onDataChange }: ResumeFormProps) {
               id="summary"
               placeholder="Brief summary of your experience and skills..."
               rows={4}
-              className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              onChange={(e) => onDataChange?.({ summary: e.target.value })}
+              value={personalInfo.summary}
+              onChange={(e) => handleInputChange("summary", e.target.value)}
+              onBlur={() => handleBlur("summary")}
+              className={`flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
+                errors.summary ? "border-destructive" : ""
+              }`}
             />
+            {errors.summary && (
+              <p className="text-sm text-destructive">{errors.summary}</p>
+            )}
           </div>
         </CardContent>
       </Card>
